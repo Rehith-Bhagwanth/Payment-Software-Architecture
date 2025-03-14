@@ -1,0 +1,83 @@
+html
+  head
+    title Payment Page
+    link(rel="stylesheet", href="./css/indexStyle.css")
+  body
+    .payment-container
+      h1 Payment Page
+      form(id="payment-form")
+        .form-group
+          label(for="cardholder-name") Cardholder Name
+          input(type="text", id="cardholder-name", placeholder="Enter Cardholder Name", required)
+
+        .form-group
+          label(for="card-element") Credit or Debit Card
+          div#card-element  
+
+        .form-group
+          label(for="billing-address") Billing Address (Optional)
+          input(type="text", id="billing-address", placeholder="Enter Billing Address")
+
+        div#card-errors(role="alert") 
+
+        button#submit Pay Now
+
+    script(src="https://js.stripe.com/v3/")  
+
+    script.
+      var stripe = Stripe('#{key}');  
+      var elements = stripe.elements();
+      var card = elements.create('card');
+      card.mount('#card-element');
+
+      var form = document.getElementById('payment-form');
+      var cardholderName = document.getElementById('cardholder-name');
+      var billingAddress = document.getElementById('billing-address');
+      var cardErrors = document.getElementById('card-errors');
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        if (!cardholderName.value.trim()) {
+          cardErrors.textContent = "Cardholder Name is required.";
+          return;
+        }
+
+        stripe.createPaymentMethod('card', card, {
+          billing_details: {
+            name: cardholderName.value,
+            address: { line1: billingAddress.value }
+          }
+        }).then(function(result) {
+          if (result.error) {
+            cardErrors.textContent = result.error.message;
+          } else {
+            fetch('/payments/create-payment-intent', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({ payment_method: result.paymentMethod.id })
+            })
+            .then(response => response.json())
+            .then(paymentIntentResponse => {
+              if (paymentIntentResponse.error) {
+                cardErrors.textContent = paymentIntentResponse.error.message;
+              } else {
+                return stripe.confirmCardPayment(paymentIntentResponse.clientSecret, {
+                  payment_method: result.paymentMethod.id,
+                });
+              }
+            })
+            .then(confirmResult => {
+              if (confirmResult.error) {
+                cardErrors.textContent = confirmResult.error.message;
+              } else {
+                window.location.href = '/success';
+              }
+            })
+            .catch(error => {
+              cardErrors.textContent = "Payment failed. Please try again.";
+              console.error("Error processing payment:", error);
+            });
+          }
+        });
+      });

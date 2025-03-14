@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title Payment Successful
+    link(rel="stylesheet", href="/css/successStyle.css")
+  body
+    .container
+      h1 Payment Successful
+      p Your payment was successfully processed.
+      a.button(href="/") Return to Home
+
+      h2 Past Transactions
+      table#transactions
+        thead
+          tr
+            th ID
+            th Amount
+            th Status
+            th Date
+        tbody
+          // Transactions will be populated here by JavaScript
+
+    script(src="/js/success.js")

@@ -1,0 +1,117 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+/* Payment Container */
+.payment-container {
+  width: 100%;
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Title */
+h1 {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Form Styling */
+#payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Input Fields */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+/* Card Element */
+#card-element {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Button */
+button#submit {
+  padding: 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button#submit:hover {
+  background-color: #45a049;
+}
+
+/* Error Messages */
+#card-errors {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 600px) {
+  .payment-container {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .form-group input {
+    font-size: 12px;
+  }
+
+  button#submit {
+    font-size: 14px;
+  }
+}
