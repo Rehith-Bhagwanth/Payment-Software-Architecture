@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 3000
 
 
-CMD ["npm", "start", "worker"]
+CMD ["npm", "run", "start:all"]
