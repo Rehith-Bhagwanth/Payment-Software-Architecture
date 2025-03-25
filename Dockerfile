@@ -12,7 +12,16 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts
 
 # Copy the remaining application files
-COPY . ./
+COPY config/ config/
+COPY controllers/ controllers/
+COPY events/ events/
+COPY models/ models/
+COPY public/ public/
+COPY routes/ routes/
+COPY service/ service/
+COPY views/ views/
+COPY worker/ worker/
+COPY server.js ./
 
 # Set correct permissions
 RUN chown -R appuser:appgroup /usr/src/app
