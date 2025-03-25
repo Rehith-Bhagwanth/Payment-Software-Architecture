@@ -1,19 +1,25 @@
 FROM node:18-alpine
 
 
+RUN addgroup -S appgroup && \
+    adduser -S appuser -G appgroup && \
+    mkdir -p /usr/src/app && \
+    chown -R appuser:appgroup /usr/src/app
+
 WORKDIR /usr/src/app
 
 
-COPY package.json package-lock.json ./
+USER appuser
 
 
-RUN npm ci --ignore-scripts
+COPY --chown=appuser:appgroup package.json package-lock.json ./
 
 
-COPY . .
+RUN npm ci --ignore-scripts --only=production
 
+
+COPY --chown=appuser:appgroup . .
 
 EXPOSE 3000
-
 
 CMD ["npm", "run", "start:all"]
