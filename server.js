@@ -20,7 +20,27 @@ app.use(express.json());
 app.set("view engine", "pug");
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(cors());
+
+const allowedOrigins = [
+  "https://payment-software-architecture.onrender.com",
+  "http://localhost:3000",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname, "public")));
 
