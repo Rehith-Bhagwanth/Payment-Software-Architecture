@@ -5,8 +5,11 @@ const path = require("path");
 const connectDB = require("./config/db");
 const paymentRoutes = require("./routes/paymentRoutes");
 const webhookRoutes = require("./routes/webhookRoutes");
+const helmet = require("helmet");
 
 const app = express();
+
+app.use(helmet.hidePoweredBy());
 
 connectDB();
 
