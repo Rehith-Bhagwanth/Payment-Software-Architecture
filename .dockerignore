@@ -3,3 +3,5 @@ node_modules
 .env
 Dockerfile
 .dockerignore
+coverage
+sonar-project.properties

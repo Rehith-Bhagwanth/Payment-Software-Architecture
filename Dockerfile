@@ -5,14 +5,14 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /usr/src/app
 
-# Copy only package files first (for better caching)
-COPY package.json package-lock.json .  
+# Copy only necessary files
+COPY package.json package-lock.json ./
 
-# Install dependencies safely (omit dev dependencies for production)
-RUN npm ci --omit=dev
+# Install dependencies securely
+RUN npm ci --omit=dev --ignore-scripts
 
-# Copy the rest of the application files
-COPY . .
+# Copy the remaining application files
+COPY . ./
 
 # Set correct permissions
 RUN chown -R appuser:appgroup /usr/src/app
